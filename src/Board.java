@@ -41,13 +41,13 @@ public class Board {
 			}
 			if (y != h)
 			{
-				System.out.println("Error reading maze file: nr of rows wrong");
+				System.out.println("Error reading board: nr of rows wrong");
 				System.exit(0);
 			}
 
 			r.close();
 		} catch (Exception e) {
-			System.out.println("Error reading maze file "+file);
+			System.out.println("Error reading board "+file);
 			e.printStackTrace();
 			System.exit(0);
 		} finally {
