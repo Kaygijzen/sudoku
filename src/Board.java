@@ -6,14 +6,12 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.lang.UnsupportedOperationException;
 
 public class Board {
     private int[][] values;
 
     public Board(File file) throws IOException {
 		//Initiates a board from a file
-		
         RandomAccessFile r = null;
 		try {
 			r = new RandomAccessFile(file, "r");
@@ -61,8 +59,7 @@ public class Board {
 	}
 
 	public void insertValue(int v, int x, int y) {
-		if (values[x][y] == 0) { values[x][y] = v; }
-		else { throw new UnsupportedOperationException("This board position already has a value"); }
+		values[x][y] = v;
 	}
 
 	public HashSet<Integer> validValues(int x, int y) {
@@ -93,15 +90,6 @@ public class Board {
 		return values[x][y] > 0;
 	}
 
-	public boolean isSolved() {
-		for (int x = 0; x < 10; x++) {
-			for (int y = 0; y < 10; y++) {
-				if (values[x][y] == 0) return false;
-			}
-		}
-		return true;
-	}
-
 	public int[][] getValues() {
 		return values;
 	}
@@ -120,13 +108,16 @@ public class Board {
         return string;
     }
 
-	// Private helper methods
+	/**
+	 * SECTION: Private helper methods
+	 */
 	private List<Integer> getRowValues(int row) {
 		int[] vals = Arrays.stream(values[row]).filter(v -> v > 0).toArray();
 		List<Integer> lst = new ArrayList<Integer>();
 		for (int v: vals) { lst.add(v); }
 		return lst;
 	}
+
 	private List<Integer> getColValues(int col) {
 		int[] vals = new int[values.length];
 		for (int i=0; i<values.length; i++){
@@ -136,11 +127,10 @@ public class Board {
 		for (int v: vals) { if (v > 0) lst.add(v); }
 		return lst;
 	}
+
 	private List<Integer> getGridValues(int x, int y) {
-		// Determine the grid
 		int xGrid = x / 3;
 		int yGrid = y / 3;
-
 		ArrayList<Integer> lst = new ArrayList<Integer>();
 		for (int iX=0; iX<3; iX++) {
 			for (int iY=0; iY<3; iY++) {
