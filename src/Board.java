@@ -1,7 +1,12 @@
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.StringTokenizer;
+import java.lang.UnsupportedOperationException;
 
 public class Board {
     private int[][] values;
@@ -55,6 +60,40 @@ public class Board {
 		}
 	}
 
+	public void insertValue(int v, int x, int y) {
+		if (values[x][y] == 0) { values[x][y] = v; }
+		else { throw new UnsupportedOperationException("This board position already has a vale"); }
+	}
+
+	public HashSet<Integer> validValues(int x, int y) {
+		HashSet<Integer> invalidVals = new HashSet<Integer>();
+
+		// Check row
+		System.out.println(getRowValues(x));
+		for (int v : getRowValues(x))
+		{
+			invalidVals.add(v);
+		}
+		// Check column
+		for (int v : getColValues(y)) { 
+			invalidVals.add(v);
+		}
+		// Check grid
+		for (int v: getGridValues(x, y)) {
+			invalidVals.add(v);
+		}
+
+		// Return all valid values
+		HashSet<Integer> vals = new HashSet<>();
+		for (int i = 1; i < 10; i++) { vals.add(i); }
+		vals.removeAll(invalidVals);
+		return vals;
+	}
+
+	public int[][] getValues() {
+		return values;
+	}
+
     public String toString() {
         String string = new String();
         for (int x=0; x < 9; x++) {
@@ -68,5 +107,36 @@ public class Board {
         }
         return string;
     }
+
+	// Private helper methods
+	private List<Integer> getRowValues(int row) {
+		int[] vals = Arrays.stream(values[row]).filter(v -> v > 0).toArray();
+		List<Integer> lst = new ArrayList<Integer>();
+		for (int v: vals) { lst.add(v); }
+		return lst;
+	}
+	private List<Integer> getColValues(int col) {
+		int[] vals = new int[values.length];
+		for (int i=0; i<values.length; i++){
+			vals[i] = values[i][col];
+		}
+		List<Integer> lst = new ArrayList<Integer>();
+		for (int v: vals) { if (v > 0) lst.add(v); }
+		return lst;
+	}
+	private List<Integer> getGridValues(int x, int y) {
+		// Determine the grid
+		int xGrid = x / 3;
+		int yGrid = y / 3;
+
+		ArrayList<Integer> lst = new ArrayList<Integer>();
+		for (int iX=0; iX<3; iX++) {
+			for (int iY=0; iY<3; iY++) {
+				int v = values[xGrid+iX][yGrid+iY];
+				if (v>0) lst.add(v);
+			}
+		}
+		return lst;
+	}
 }
 
