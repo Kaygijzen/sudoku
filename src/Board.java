@@ -62,14 +62,13 @@ public class Board {
 
 	public void insertValue(int v, int x, int y) {
 		if (values[x][y] == 0) { values[x][y] = v; }
-		else { throw new UnsupportedOperationException("This board position already has a vale"); }
+		else { throw new UnsupportedOperationException("This board position already has a value"); }
 	}
 
 	public HashSet<Integer> validValues(int x, int y) {
 		HashSet<Integer> invalidVals = new HashSet<Integer>();
 
 		// Check row
-		System.out.println(getRowValues(x));
 		for (int v : getRowValues(x))
 		{
 			invalidVals.add(v);
@@ -84,10 +83,23 @@ public class Board {
 		}
 
 		// Return all valid values
-		HashSet<Integer> vals = new HashSet<>();
-		for (int i = 1; i < 10; i++) { vals.add(i); }
-		vals.removeAll(invalidVals);
-		return vals;
+		HashSet<Integer> validVals = new HashSet<>();
+		for (int i = 1; i < 10; i++) { validVals.add(i); }
+		validVals.removeAll(invalidVals);
+		return validVals;
+	}
+
+	public boolean isFilled(int x, int y) {
+		return values[x][y] > 0;
+	}
+
+	public boolean isSolved() {
+		for (int x = 0; x < 10; x++) {
+			for (int y = 0; y < 10; y++) {
+				if (values[x][y] == 0) return false;
+			}
+		}
+		return true;
 	}
 
 	public int[][] getValues() {
@@ -132,7 +144,9 @@ public class Board {
 		ArrayList<Integer> lst = new ArrayList<Integer>();
 		for (int iX=0; iX<3; iX++) {
 			for (int iY=0; iY<3; iY++) {
-				int v = values[xGrid+iX][yGrid+iY];
+				int _x = xGrid*3 + iX;
+				int _y = yGrid*3 + iY;
+				int v = values[_x][_y];
 				if (v>0) lst.add(v);
 			}
 		}
