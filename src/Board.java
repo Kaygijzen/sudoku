@@ -58,9 +58,11 @@ public class Board {
     public String toString() {
         String string = new String();
         for (int x=0; x < 9; x++) {
+			if (x != 0 && x % 3 == 0) { string += "------+-------+------\n";}
             for (int y=0; y < 9; y++) {
-                // if ()
-                string += Integer.toString(values[x][y]) + " ";
+                if (y != 0 && y % 3 == 0) { string += "| ";}
+				if (values[x][y] == 0) { string += "  ";}
+                else {string += Integer.toString(values[x][y]) + " ";}
             }
             string += "\n";
         }
