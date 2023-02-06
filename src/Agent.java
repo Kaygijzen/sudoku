@@ -17,7 +17,7 @@ public class Agent {
 
                         if (showSteps) {
                             System.out.println(sudoku);
-                            try { Thread.sleep(100); } catch (InterruptedException e) { }
+                            try { Thread.sleep(40); } catch (InterruptedException e) { }
                         }
                         
                         if (bruteForceSolve(sudoku, showSteps)) { return true; }
